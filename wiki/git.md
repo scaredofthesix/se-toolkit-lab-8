@@ -39,6 +39,8 @@ A remote is a version of your [repository](./github.md#repository) hosted on a [
 
 Remotes let you push and pull changes between your local repository and the remote host.
 
+You can [inspect remotes in `VS Code`](./gitlens.md#inspect-the-remotes).
+
 Docs:
 
 - [Git Remotes](https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes)
