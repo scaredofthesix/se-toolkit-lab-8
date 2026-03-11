@@ -57,5 +57,5 @@ In simple words, you should be able to say:
 ### Required
 
 1. [Basic agent loop](./lab/tasks/required/task-1.md#basic-agent-loop)
-2. [Add tools](./lab/tasks/required/task-2.md)
-3. [Pass the benchmark](./lab/tasks/required/task-3.md)
+2. [Add tools](./lab/tasks/required/task-2.md#add-tools)
+3. [Pass the benchmark](./lab/tasks/required/task-3.md#pass-the-benchmark)
