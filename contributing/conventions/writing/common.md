@@ -38,6 +38,7 @@
 
 - **Navigate somewhere** — `Go to X.`
 - **Click something** — `Click X.`
+- **Type something in a shell or chat** — `Type X.`
 - **Choose an option** — `Method N:` prefix (see [4.6](#46-mini-toc))
 - **Complete all steps** — `Complete these steps:`
 - **Conditional steps** — `If <condition>, complete these steps:`
