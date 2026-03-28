@@ -1,0 +1,32 @@
+{
+  "agents": {
+    "defaults": {
+      "workspace": "./workspace",
+      "model": "stepfun/step-3.5-flash:free",
+      "provider": "openrouter",
+      "maxTokens": 1024,
+      "contextWindowTokens": 16384
+    }
+  },
+  "providers": {
+    "openrouter": {
+      "apiKey": "",
+      "apiBase": "https://openrouter.ai/api/v1"
+    }
+  },
+  "tools": {
+    "mcpServers": {
+      "lms": {
+        "command": "python",
+        "args": [
+          "-m",
+          "mcp_lms"
+        ],
+        "env": {
+          "NANOBOT_LMS_BACKEND_URL": "http://127.0.0.1:42001",
+          "NANOBOT_LMS_API_KEY": ""
+        }
+      }
+    }
+  }
+}
