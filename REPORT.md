@@ -107,3 +107,67 @@ Error details:
 - Error message: [Errno -2] Name or service not known
 - Source: lms_backend.db.items (database queries on the item table)
 What's likely wrong: The LMS backend cannot resolve the database hostname, indicating either DNS configuration issues, database service is down, or network connectivity problems."
+
+## Task 4A — Multi-step investigation
+
+With PostgreSQL stopped, agent response to "What went wrong?":
+
+8 errors detected in the last 15 minutes affecting the Learning Management Service.
+
+Root Cause: Database Connectivity Problems:
+1. Closed database connections (asyncpg InterfaceError: connection is closed)
+2. DNS resolution failures ([Errno -2] Name or service not known)
+
+Evidence from Tracing: trace shows GET /items/ → DB query failed → HTTP 404 returned (masking the real DB error).
+
+## Task 4B — Proactive health check
+
+Health Check Summary (11:27 UTC):
+- 1 error detected in the last 2 minutes
+- Issue: Database connection failure - DNS resolution error when connecting to PostgreSQL
+- Trace insight: GET /items/ returned HTTP 404, but the underlying cause was a database connectivity issue. The application may be masking the DB error with a 404 response.
+
+(Screenshot added)
+
+## Task 4C — Bug fix and recovery
+
+### Root cause
+The planted bug was in `backend/src/lms_backend/routers/items.py` in the `get_items` endpoint. A broad `except Exception` block caught ALL exceptions (including database connection errors) and returned HTTP 404 "Items not found" instead of propagating the real error. This masked database failures as missing data.
+
+### Fix
+Changed the exception handler to:
+- Re-raise HTTPException as-is
+- Log the real error with `logger.error` instead of `logger.warning`
+- Return HTTP 500 with the actual error message instead of 404
+```diff
+-    except Exception as exc:
+-        logger.warning(
+-            "items_list_failed_as_not_found",
+-            extra={"event": "items_list_failed_as_not_found"},
+-        )
+-        raise HTTPException(
+-            status_code=status.HTTP_404_NOT_FOUND,
+-            detail="Items not found",
+-        ) from exc
++    except HTTPException:
++        raise
++    except Exception as exc:
++        logger.error(
++            "items_list_failed",
++            extra={"event": "items_list_failed", "error": str(exc)},
++        )
++        raise HTTPException(
++            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
++            detail=f"Internal server error: {exc}",
++        ) from exc
+```
+
+### Post-fix failure check
+After redeploy with PostgreSQL stopped, curl returns:
+HTTP/1.1 500 Internal Server Error
+{"detail":"Internal server error: [Errno -2] Name or service not known"}
+
+The real database error is now visible instead of the misleading 404.
+
+### Healthy follow-up
+After PostgreSQL restart, health check reports system looks healthy.
