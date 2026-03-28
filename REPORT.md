@@ -41,3 +41,27 @@ I found 8 labs available. Which lab's scores would you like to see?
 8. lab-08
 
 Please let me know which lab you'd like to see the pass rates and scores for, or I can show you all of them if you prefer.
+
+## Task 2A — Deployed agent
+
+Startup log excerpt:
+```
+Using config: /app/nanobot/config.resolved.json
+Starting nanobot gateway version 0.1.4.post5 on port 18790...
+WebChat channel enabled
+Channels enabled: webchat
+Heartbeat: every 1800s
+Cron service started with 0 jobs
+Heartbeat started (every 1800s)
+```
+
+## Task 2B — Web client
+
+WebSocket test response:
+```
+{"type":"text","content":"I'll check what labs are available in the LMS.","format":"markdown"}
+```
+
+Flutter client accessible at http://10.93.24.236:42002/flutter
+
+(Screenshot to be added)
