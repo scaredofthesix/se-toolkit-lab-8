@@ -49,6 +49,21 @@ def main():
             },
         }
 
+
+    # --- MCP: Observability ---
+    obs_logs_url = os.environ.get("NANOBOT_VICTORIALOGS_URL", "")
+    obs_traces_url = os.environ.get("NANOBOT_VICTORIATRACES_URL", "")
+    if obs_logs_url and obs_traces_url:
+        config.setdefault("tools", {}).setdefault("mcpServers", {})
+        config["tools"]["mcpServers"]["obs"] = {
+            "command": "python",
+            "args": ["-m", "mcp_obs"],
+            "env": {
+                "NANOBOT_VICTORIALOGS_URL": obs_logs_url,
+                "NANOBOT_VICTORIATRACES_URL": obs_traces_url,
+            },
+        }
+
     # --- Webchat channel ---
     wc_host = os.environ.get("NANOBOT_WEBCHAT_CONTAINER_ADDRESS", "")
     wc_port = os.environ.get("NANOBOT_WEBCHAT_CONTAINER_PORT", "8765")

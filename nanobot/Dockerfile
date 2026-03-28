@@ -9,6 +9,7 @@ WORKDIR /app
 COPY --from=workspace pyproject.toml uv.lock /app/
 COPY pyproject.toml /app/nanobot/pyproject.toml
 COPY --from=workspace mcp/mcp-lms /app/mcp/mcp-lms
+COPY --from=workspace mcp/mcp-obs /app/mcp/mcp-obs
 COPY --from=workspace nanobot-websocket-channel/nanobot-channel-protocol /app/nanobot-websocket-channel/nanobot-channel-protocol
 COPY --from=workspace nanobot-websocket-channel/mcp-webchat /app/nanobot-websocket-channel/mcp-webchat
 COPY --from=workspace nanobot-websocket-channel/nanobot-webchat /app/nanobot-websocket-channel/nanobot-webchat

@@ -65,3 +65,45 @@ WebSocket test response:
 Flutter client accessible at http://10.93.24.236:42002/flutter
 
 (Screenshot to be added)
+
+## Task 3A — Structured logging
+
+### Happy-path log excerpt
+```
+request_started [trace_id=4c89ad1d902b99f4aa13b8b8e2cc362a] 
+auth_success [trace_id=4c89ad1d902b99f4aa13b8b8e2cc362a]
+db_query [trace_id=4c89ad1d902b99f4aa13b8b8e2cc362a]
+request_completed [trace_id=4c89ad1d902b99f4aa13b8b8e2cc362a]
+GET /items/ HTTP/1.1 200 OK
+```
+
+### Error-path log excerpt
+```
+request_started [trace_id=a37cd268a82cf65b28dea76bb15831f5]
+auth_success [trace_id=a37cd268a82cf65b28dea76bb15831f5]
+db_query INFO [trace_id=a37cd268a82cf65b28dea76bb15831f5]
+db_query ERROR [trace_id=a37cd268a82cf65b28dea76bb15831f5]
+items_list_failed_as_not_found WARNING [trace_id=a37cd268a82cf65b28dea76bb15831f5]
+request_completed [trace_id=a37cd268a82cf65b28dea76bb15831f5]
+GET /items/ HTTP/1.1 404 Not Found
+```
+
+(VictoriaLogs UI screenshot to be added)
+
+## Task 3B — Traces
+
+(Healthy trace screenshot: trace_id=4c89ad1d902b99f4aa13b8b8e2cc362a)
+(Error trace screenshot: trace_id=a37cd268a82cf65b28dea76bb15831f5)
+
+## Task 3C — Observability MCP tools
+
+### Normal conditions
+Agent response: "No LMS backend errors in the last 10 minutes. The system is healthy with 56 items available."
+
+### After stopping PostgreSQL
+Agent response: "There are 6 errors in the Learning Management Service in the last 10 minutes.
+Error details:
+- Type: Database connection failure
+- Error message: [Errno -2] Name or service not known
+- Source: lms_backend.db.items (database queries on the item table)
+What's likely wrong: The LMS backend cannot resolve the database hostname, indicating either DNS configuration issues, database service is down, or network connectivity problems."
