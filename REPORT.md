@@ -64,7 +64,7 @@ WebSocket test response:
 
 Flutter client accessible at http://10.93.24.236:42002/flutter
 
-(Screenshot to be added)
+![Flutter web client](screenshots/TASK_2B.png)
 
 ## Task 3A — Structured logging
 
@@ -88,12 +88,12 @@ request_completed [trace_id=a37cd268a82cf65b28dea76bb15831f5]
 GET /items/ HTTP/1.1 404 Not Found
 ```
 
-(VictoriaLogs UI screenshot to be added)
+![VictoriaLogs errors](screenshots/TASK_3A.png)
 
 ## Task 3B — Traces
 
-(Healthy trace screenshot: trace_id=4c89ad1d902b99f4aa13b8b8e2cc362a)
-(Error trace screenshot: trace_id=a37cd268a82cf65b28dea76bb15831f5)
+![VictoriaTraces](screenshots/TASK_3B.png)
+
 
 ## Task 3C — Observability MCP tools
 
@@ -127,7 +127,7 @@ Health Check Summary (11:27 UTC):
 - Issue: Database connection failure - DNS resolution error when connecting to PostgreSQL
 - Trace insight: GET /items/ returned HTTP 404, but the underlying cause was a database connectivity issue. The application may be masking the DB error with a 404 response.
 
-(Screenshot added)
+![Proactive health check](screenshots/TASK_4B.png)
 
 ## Task 4C — Bug fix and recovery
 
@@ -171,3 +171,9 @@ The real database error is now visible instead of the misleading 404.
 
 ### Healthy follow-up
 After PostgreSQL restart, health check reports system looks healthy.
+
+### Screenshots
+
+![Post-fix investigation](screenshots/TASK_4C_1.png)
+
+![Post-fix healthy report](screenshots/TASK_4C_2.png)
